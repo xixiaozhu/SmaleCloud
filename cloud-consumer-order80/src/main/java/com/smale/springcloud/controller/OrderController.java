@@ -3,6 +3,7 @@ package com.smale.springcloud.controller;
 import com.smale.springcloud.entities.CommonResult;
 import com.smale.springcloud.entities.Payment;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class OrderController {
     /**
      * 单机固定找8001服务
      */
-    public static final String PAYMENT_URL = "http://localhost:8001";
+//    public static final String PAYMENT_URL = "http://localhost:8001";
 
     /**
      * 使用Eureka负载均衡
@@ -56,12 +57,27 @@ public class OrderController {
      * postman localhost/consumer/payment/get/1001
      * 
      * @param id id
-     * @return CommonResult<Payment>
+     * @return CommonResult<Payment> Json字符串
      */
     @GetMapping("/consumer/payment/get/{id}")
     public CommonResult<Payment> getPayment(@PathVariable("id") Long id){
 //        return restTemplate.getForObject(PAYMENT_URL + "/payment/get/" + id, CommonResult.class);
         return restTemplate.getForObject(PAYMENT_SRV + "/payment/get/" + id, CommonResult.class);
+    }
+
+    /**
+     * postman localhost/consumer/payment/getForEntity/1001
+     * @param id
+     * @return CommonResult<Payment> 详细信息
+     */
+    @GetMapping("/consumer/payment/getForEntity/{id}")
+    public CommonResult<Payment> getPayment2(@PathVariable("id") Long id){
+        ResponseEntity<CommonResult> forEntity = restTemplate.getForEntity(PAYMENT_SRV + "/payment/get/" + id, CommonResult.class);
+        if (forEntity.getStatusCode().is2xxSuccessful()){
+            return forEntity.getBody();
+        } else {
+            return new CommonResult<>(444, "操作失败", null);
+        }
     }
     
 }
