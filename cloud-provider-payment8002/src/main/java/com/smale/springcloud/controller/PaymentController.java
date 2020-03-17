@@ -30,7 +30,7 @@ public class PaymentController {
      */
     @Resource
     private DiscoveryClient discoveryClient;
-
+    
 
     /**
      * 新增
@@ -66,13 +66,14 @@ public class PaymentController {
         }
         return new CommonResult(444, "没有对应记录,查询ID:" + id, null);
     }
-    
+
+
     /**
      * DiscoveryClient: 获取注册在Eureka上的服务的信息
      */
     @GetMapping("/payment/discovery")
     public Object discovery(){
-        
+
         // 获取注册在Eureka上的服务名称列表
         List<String> services = discoveryClient.getServices();
         for (String element : services) {
@@ -84,8 +85,9 @@ public class PaymentController {
         for (ServiceInstance instance : instances) {
             log.info(instance.getServiceId()+"\t"+instance.getHost()+"\t"+instance.getPort()+"\t"+instance.getUri());
         }
-        
+
         return this.discoveryClient;
     }
+    
     
 }
