@@ -76,7 +76,7 @@ public class PaymentController {
         // 获取注册在Eureka上的服务名称列表
         List<String> services = discoveryClient.getServices();
         for (String element : services) {
-            log.info("element={}", element);
+            log.info("element = {}", element);
         }
 
         // 获取注册在Eureka上的所有的服务具体信息
