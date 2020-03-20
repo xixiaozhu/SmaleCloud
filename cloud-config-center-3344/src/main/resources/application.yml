@@ -11,7 +11,7 @@ spring:
           search-paths:
             - SpringCloud-Config    # github的仓库名
       # 读取分支
-      label: config
+      label: master
 #  rabbitmq:
 #    host: localhost
 #    port: 5672
