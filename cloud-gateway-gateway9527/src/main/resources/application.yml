@@ -1,0 +1,47 @@
+server:
+  port: 9527
+# gateway: 核心要素-->路由,断言,过滤
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 开启动态路由,从注册中心动态的创建路由,利用微服务名称进行路由
+      routes:
+        - id: payment_route # 路由的id,没有规定规则但要求唯一,建议配合服务名
+#          uri: http://localhost:8001   # 非动态路由配置
+          uri: lb://cloud-payment-service   # 动态路由配置,匹配后提供服务的路由地址
+          predicates:
+            - Path=/payment/get/**  # 断言，路径相匹配的进行路由
+            - After=2020-03-20T11:03:46.619+08:00[Asia/Shanghai]    # 断言,根据时间进行路由
+            # 其他路由规则可查阅官网详细配置,具体格式如下
+            #- After=2017-01-20T17:42:47.789-07:00[America/Denver]
+            #- Before=2017-01-20T17:42:47.789-07:00[America/Denver]
+            #- Cookie=username,smale
+            #- Header=X-Request-Id, \d+ #请求头要有X-Request-Id属性，并且值为正数
+            #- Host=**.baidu.com
+            #- Method=GET
+            #- Query=username, \d+ # 要有参数名username并且值还要是正整数才能路由
+            
+          # 过滤,分单一配置和全局配置
+          #filters:
+          #  - AddRequestHeader=X-Request-red, blue
+          
+          
+        - id: payment_route2
+#          uri: http://localhost:8001
+          uri: lb://cloud-payment-service   # 动态路由配置,匹配后提供服务的路由地址
+          predicates:
+            - Path=/payment/lb/** #断言,路径相匹配的进行路由
+            
+
+eureka:
+  instance:
+    hostname: cloud-gateway-service
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka

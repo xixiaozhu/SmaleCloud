@@ -88,6 +88,15 @@ public class PaymentController {
 
         return this.discoveryClient;
     }
+
+    /**
+     * 测试Gateway动态路由
+     * @return
+     */
+    @GetMapping(value = "/payment/lb")
+    public String getPaymentLB() {
+        return serverPort;
+    }
     
     
 }

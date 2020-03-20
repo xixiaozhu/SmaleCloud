@@ -58,7 +58,7 @@ public class PaymentController {
      * @param id
      * @return
      */
-    @GetMapping(value = "payment/get/{id}")
+    @GetMapping(value = "/payment/get/{id}")
     public CommonResult getPaymentById(@PathVariable("id") Long id) {
         Payment payment = paymentService.getPaymentById(id);
         log.info("*****查询结果*****: " + payment);
@@ -66,6 +66,11 @@ public class PaymentController {
             return new CommonResult(200, "查询成功, serverPort = " + serverPort, payment);
         }
         return new CommonResult(444, "没有对应记录,查询ID:" + id, null);
+    }
+
+    @GetMapping(value = "/payment/lb")
+    public String getPaymentLB() {
+        return serverPort;
     }
     
     /**
