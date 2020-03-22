@@ -3,6 +3,7 @@ package com.smale.springcloud.controller;
 import com.smale.springcloud.entities.CommonResult;
 import com.smale.springcloud.entities.Payment;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.net.URI;
+import java.util.List;
 
 /**
  * 服务消费者
@@ -78,6 +81,13 @@ public class OrderController {
         } else {
             return new CommonResult<>(444, "操作失败", null);
         }
+    }
+
+    // 使用restTemplate完成zipkin + sleuth
+    @GetMapping("/consumer/payment/zipkin")
+    public String paymentZipkin(){
+        String result = restTemplate.getForObject(PAYMENT_SRV + "/payment/zipkin", String.class);
+        return result;
     }
     
 }

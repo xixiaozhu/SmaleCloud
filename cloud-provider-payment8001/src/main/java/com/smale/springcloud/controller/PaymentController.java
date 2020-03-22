@@ -67,11 +67,6 @@ public class PaymentController {
         }
         return new CommonResult(444, "没有对应记录,查询ID:" + id, null);
     }
-
-    @GetMapping(value = "/payment/lb")
-    public String getPaymentLB() {
-        return serverPort;
-    }
     
     /**
      * DiscoveryClient: 获取注册在Eureka上的服务的信息
@@ -107,6 +102,24 @@ public class PaymentController {
             e.printStackTrace();
         }
         return serverPort;
+    }
+
+    /**
+     * 测试Gateway服务网关--动态路由
+     * @return
+     */
+    @GetMapping(value = "/payment/lb")
+    public String getPaymentLB() {
+        return serverPort;
+    }
+
+    /**
+     * 测试链路追踪Zipkin
+     * @return
+     */
+    @GetMapping("/payment/zipkin")
+    public String paymentZipkin(){
+        return "hi, i'am paymentzipkin server fall back, O(∩_∩)O哈哈~";
     }
     
 }
