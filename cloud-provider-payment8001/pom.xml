@@ -16,9 +16,16 @@
 	<dependencies>
 		<!-- 引入自定义api通用包 -->
 		<dependency>
-		<groupId>com.smale.springcloud</groupId>
+			<groupId>com.smale.springcloud</groupId>
 			<artifactId>cloud-api-commons</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		
+		<!-- 链路追踪Zipkin -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-zipkin</artifactId>
+			<version>2.1.1.RELEASE</version>
 		</dependency>
 		
 		<dependency>
